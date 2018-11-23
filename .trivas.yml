@@ -1,0 +1,38 @@
+language: android
+android:
+  components:
+    - platform-tools-26
+    - platforms-android-26
+    - build-tools-26.0.3
+    - android-26
+
+    - sys-img-x86-android-26
+    - sys-img-armeabi-v7a-android-17
+  licenses:
+    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: "openssl aes-256-cbc -K $encrypted_c54f8e2b70b4_key -iv $encrypted_c54f8e2b70b4_iv -in playable_dept.jks.enc -out playable_dept.jks -d && ./gradlew uploadReleaseToHockeyApp"
+    on:
+      branch: master
+
+env:
+  global: 
+  - secure: "iFqGFTqdcn4LiyS0v6icFXUwvyK9B/FiAmMRwV2m7JG/rcib4Y9ZCNquArdOL5q7ksmSB4B7B/lPTsNBIOypnQVW8ps5pyU+AcTJI96KJuU6Gyir1L8SodpkpynQtTjR1v4gO4hQlMXEodnyyOg4d2vOzhqS1Ma2ynFgwlef8QPZHJ+sQaf67H2y+TrfCdJ4xuyn15qpSyJwJTgLLxYbUQkp6B4DiCMeDOyMYBGFWn9PXZH6W2t+7J6mCBZiW7mGzwSF7O5IG4lhd1Z9HBSZxywq8JKsCt4B8GoaroMOEym3qcsQUwZW7i+mFdn20S14bdtQTSRZBXPBu5mTdsGCZDyl8UQULuyiAyNlT1lWV2znVWOnm/Ieshrvz6D5xJQm4LZZ4+b0oQroU1W8ChVorbfYZPV07P0iWFGVjKFkfBGu9SdQ+4cT4IWXcva8UdN9oAo4X/X5QSq3nspRNrNW4EYh3EGZCK/H6acGCWRKmKXOUQ6Qow6nlZQ664FB1Exorjk01in4Z8wm/jgPejkNukjm7knQiKHf3OzbfoD80I8WL2OEIRRtO5iq3HHsGs4iJT7JoQKV1euZK2qHfdzFhSunb20J4Q7B2s2ezbRobiYBj6WE76thyKMW6b43z3YnOI20McgCXYMIT8161iws1MU+b8WT+ukOaXtVu6MiI3U="
+  - secure: "i9uddWPq3+SY2Zl5uW8mzVG/OmzelXB1DDJIT31WG3i7mh1VuCNRR119DdbxxIWEwiWaGe8wboX4nMRQhKw49QT/HJP8udHmEtrNwv06ro3NuW0bcf+FEYp8OdAkY7/sE3+waqoWM1QTIHIsg1d9DYpHuk0hWKZK+9F7ZE8T7Kg/LGdptisqUYuAKiOvOydq+jaHt+EJwoFFqecpZo/AZdhW0FMdnfXSL2PgmD+D1NbBZ9JDINFKthmPO76DPYzaWkUAvk4yaN74asIDoXEs+wOYth6M/sUsB7BGFpE72slRcQtoAJiLE8Ws/7XfC5n7uT6mSpvPBtL4U9sm2sp+6sA45NxeE53gPkxAq4h+WxeUqVObTxIB0RicAHPsftyMme7/xfXZDtYctny+42SANWrU1uuqhnJPnL6mhNvmUX6X7qdOQGzPB1K5zsxF0PBl5flWzvIykzkiBK0wz1CMPOHaM/dHGMrDr79FT1sm6MiJKOLexmHlkvRPLFyNd8aekI+/w17YnGqUmAgKZWD5AqalsPUjOVu04adpTwAeZYAE/0jw+smEQi9hCNqKiyw/mBByHTEz7bgPy62+9mZ03sf2fg6bS3KFBU5+FZANy309l2PzVHVbzMXuOLVVLIozmSV2vukUGmOvmO416XxGgAJp8khVLur3KQyLkPrUNL0="
+  - secure: "v90BLYtwtHpKAGoEB57WQ6iYESrxbFaux+hyjYoveCYZ8+quWJTYMGGCq+jFQm3ggVv3lgdRUtZB6RRY6xnVUZqvjtiTukKGjJpIH4Jb2Fgse1YRq7FyLhIs7KiAZ7Dea8nwfO5roQp54VXsumQ2PBGu2KIeJoZwwgFArISb0Q/qqKbmHJNjam0gycytzYPA5Hkz0c4Tmd0Ip2QvMoW4wMHw5774qjU5WTyJRWuZfT/hHAR4aM2j1urB8QdDLuHH53k6lGuXkw2PJOtJThKKkhee8QVIrcHgK7MQezE3hdUoRJVCdXZKbukRh4KgvHoB6E/MIus9rYfVDqfulXdeMf206yKD/ueiw8u23HKhWJmXeY7r00+KgjnTtZjKVQWwL8iUcvODzmjas+iU9SXZ7oTVJXWPU+QzGoWzWzP4up76rpSbNgpOnlQfQ4mt20IxZP7mwMfKEICD3Ptou5V3NeQbAB2D1w+HpEoyMkCTcec1Pu1AzmOJ88HBfnpZY1EGcbXu1Vufjzeipw2G+ecdGz2DmR2jX0OCqBmKn4PpwdN/BcIMRAMe3Ro7+b9Bcs97Z3YThCsHU8H/6oqaCnXC+n5M0RQp+YcJE8yBfFnyYEt06xNGCVWUY63s749SEptODAYFQRka87ZJQu46a5sfNwswrilcZFofZ/ule8i9Wk4="
+  - secure: "NzrjmxReofAe19JmM0Qb6fF3fccWEi/9hMEADJ/7Lyd0nueACjY4RLBQ410+SxwkwVxvea0dN/0IOlldfvdOv0izubvUjK7OZ8LNGS1xSwcZMDznR7c4qXjZR8Fi5kjyc7H7IQH+s39carUeAStmXN8FDyfrNFnu7xJCi5ctUqKIzbxuZBRHE49wN/slTedVKO2p9MW0epbvCQDQM8JtONGikLCrIJ2E9yv1a3Anu1zXRYZOYUP9/QwMz1HKVCKThiU9GFziUufwddeqbEaIQNiC6PUltwDjEx0mqEZM/aspXyp+fiZqpfH3WTQqVlb0EcLHTBgxgryP5DRFEpzpoSHd9BKa19xT0FT2KOHYobGsy/1YSls7i78WCXQMf9rjrF9rsVlvhvh9ZqzwfF399oTb4/hvVL767EvM8DhQMbwF65WCTyNnbxAt3o1boxYLDTWkqIgl8e1TLi7yWzUOP8BHyG9VHp/iWN7Ge+DWUsZHQPlBJP8NUsDtHFlPH4tEHM1+NKQsvbPr2JCn3o3JS8Sb1uPKbcKVB/lgp5VlK0jxoRSEhPQ4RyqxtUsv948G42pL3vHUG/f+RH6Z7y/lspBZoNpP0Wsz9Bwb7ZGVZVGNLzPFh+TIatZsGTRia3qLR0WP0U+e+YiJEXSGZuXjsNl+xdqHKp8VuO0mj+fyX6Q="
