@@ -16,7 +16,7 @@ android {
         release {
             storeFile project.rootProject.file("playable_dept.jks")
             storePassword System.getenv("STORE_PASSWORD")
-            keyAlias "pa_android"
+            keyAlias "pa_android"  
             keyPassword System.getenv("KEY_PASSWORD")
         }
     }
